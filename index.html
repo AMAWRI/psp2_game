@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curso EPI</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body {
   margin: 0;
@@ -14,46 +11,26 @@ body {
 
 .carousel {
   display: flex;
-  width: 800%; /* 8 telas */
+  width: 800%;
   height: 100vh;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s;
 }
 
 .slide {
   width: 100%;
   flex-shrink: 0;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-video {
-  width: 100%;
-  max-width: 350px;
-  border-radius: 10px;
+  background: #f0f0f0;
 }
 
 button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 18px;
-}
-
-.card {
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  margin-top: 10px;
   padding: 10px;
-  margin: 10px;
-  cursor: pointer;
 }
-
-.correct { background: #c8f7c5; }
-.wrong { background: #f7c5c5; }
 </style>
 </head>
 
@@ -61,63 +38,50 @@ button {
 
 <div id="carousel" class="carousel">
 
-  <!-- SLIDES 1–4 (vídeos) -->
-  <div class="slide">
-    <h2>Módulo 1</h2>
-    <video controls src="cena1.mp4"></video>
-    <button onclick="next()">Próximo</button>
-  </div>
+ <div class="slide">
+  <h2>Módulo 1</h2>
+  <video controls width="300">
+    <source src="cena1.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo
+  </video>
+  <button onclick="next()">Próximo</button>
+</div>
 
-  <div class="slide">
-    <h2>Módulo 2</h2>
-    <video controls src="cena2.mp4"></video>
-    <button onclick="next()">Próximo</button>
-  </div>
+<div class="slide">
+  <h2>Módulo 2</h2>
+  <video controls width="300">
+    <source src="cena2.mp4" type="video/mp4">
+  </video>
+  <button onclick="next()">Próximo</button>
+</div>
 
-  <div class="slide">
-    <h2>Módulo 3</h2>
-    <video controls src="cena3.mp4"></video>
-    <button onclick="next()">Próximo</button>
-  </div>
+<div class="slide">
+  <h2>Módulo 3</h2>
+  <video controls width="300">
+    <source src="cena3.mp4" type="video/mp4">
+  </video>
+  <button onclick="next()">Próximo</button>
+</div>
 
-  <div class="slide">
-    <h2>Módulo 4</h2>
-    <video controls src="cena4.mp4"></video>
-    <button onclick="next()">Próximo</button>
-  </div>
+<div class="slide">
+  <h2>Módulo 4</h2>
+  <video controls width="300">
+    <source src="cena4.mp4" type="video/mp4">
+  </video>
+  <button onclick="next()">Próximo</button>
+</div>
 
-  <!-- SLIDE 5 -->
   <div class="slide">
     <h2>Qual protege os pés?</h2>
-    <div class="card" onclick="responder(this, false)">Chinelo</div>
-    <div class="card" onclick="responder(this, true)">Bota</div>
-    <p id="f1"></p>
+    <button onclick="alert('Errado')">Chinelo</button>
+    <button onclick="alert('Correto')">Bota</button>
     <button onclick="next()">Próximo</button>
   </div>
 
-  <!-- SLIDE 6 -->
-  <div class="slide">
-    <h2>Qual protege as mãos?</h2>
-    <div class="card" onclick="responder(this, false)">Sem luva</div>
-    <div class="card" onclick="responder(this, true)">Luva</div>
-    <p id="f2"></p>
-    <button onclick="next()">Próximo</button>
-  </div>
+  <div class="slide"><h2>Jogo 2</h2><button onclick="next()">Próximo</button></div>
+  <div class="slide"><h2>Jogo 3</h2><button onclick="next()">Próximo</button></div>
 
-  <!-- SLIDE 7 -->
-  <div class="slide">
-    <h2>Capacete serve para?</h2>
-    <div class="card" onclick="responder(this, false)">Enfeite</div>
-    <div class="card" onclick="responder(this, true)">Proteção da cabeça</div>
-    <p id="f3"></p>
-    <button onclick="next()">Próximo</button>
-  </div>
-
-  <!-- SLIDE 8 -->
-  <div class="slide">
-    <h2>Parabéns!</h2>
-    <video controls src="cena2.mp4"></video>
-  </div>
+  <div class="slide"><h2>Fim 🎉</h2></div>
 
 </div>
 
@@ -125,45 +89,10 @@ button {
 let index = 0;
 const carousel = document.getElementById("carousel");
 
-// botão próximo
 function next() {
-  if (index < 7) {
-    index++;
-    update();
-  }
+  index++;
+  carousel.style.transform = "translateX(-" + (index * 100) + "%)";
 }
-
-// mover carrossel
-function update() {
-  carousel.style.transform = `translateX(-${index * 100}%)`;
-}
-
-// resposta jogo
-function responder(el, correto) {
-  if (correto) {
-    el.classList.add("correct");
-  } else {
-    el.classList.add("wrong");
-  }
-}
-
-// swipe (arrastar)
-let startX = 0;
-
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", e => {
-  let endX = e.changedTouches[0].clientX;
-  let diff = startX - endX;
-
-  if (diff > 50) next();
-  if (diff < -50 && index > 0) {
-    index--;
-    update();
-  }
-});
 </script>
 
 </body>
